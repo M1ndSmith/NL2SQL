@@ -24,3 +24,7 @@ graphify-out/
 
 *.code-workspace
 *.cursor
+
+.terraform/
+*.tfstate
+*.tfstate.*

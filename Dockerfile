@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY nl2sql ./nl2sql
 COPY config.yaml run.py ./
+RUN chmod -R a+rX /app
 
 USER appuser
 

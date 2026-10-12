@@ -44,7 +44,7 @@ Sign in, ask in the Playground, approve a write, and read Runs.
 
 ## Configuration
 
-Policy, limits, and prices live in [config.yaml](config.yaml). Secrets and DSNs live in `.env`, copied from [.env.example](.env.example). An environment value overrides the same YAML setting.
+Policy, limits, and prices live in [config.yaml](config.yaml). Secrets and DSNs live in `.env`, copied from [.env.example](.env.example). An environment value overrides the same YAML setting. The AWS shape of this app is described in [aws/README.md](aws/README.md).
 
 ## Contributing
 
