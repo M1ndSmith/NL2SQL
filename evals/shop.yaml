@@ -1,0 +1,29 @@
+# Questions and acceptable result sets for the sample shop.
+# Comparison is on rows, not on the SQL text. A case may list more than one acceptable shape.
+cases:
+  - id: customer_count
+    role: analyst
+    question: how many customers
+    accepted:
+      - columns: [count]
+        rows: [[2]]
+  - id: customer_names
+    role: analyst
+    question: what are the customer names
+    accepted:
+      - columns: [name]
+        rows: [[Ada], [Grace]]
+      - columns: [id, name]
+        rows: [[1, Ada], [2, Grace]]
+  - id: paid_orders
+    role: analyst
+    question: which orders are paid
+    accepted:
+      - columns: [id]
+        rows: [[1], [2]]
+  - id: inventory
+    role: ops
+    question: how much inventory is left
+    accepted:
+      - columns: [product_id, quantity]
+        rows: [[1, 40], [2, 12]]

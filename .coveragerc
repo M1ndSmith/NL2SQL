@@ -1,0 +1,14 @@
+[run]
+source =
+    nl2sql
+    run
+omit =
+    tests/*
+    */.venv/*
+    */graphify-out/*
+    */site-packages/*
+
+[report]
+show_missing = True
+skip_empty = True
+fail_under = 85

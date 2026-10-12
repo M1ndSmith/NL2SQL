@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      NL2SQL_CHECKPOINT_DSN: postgresql://nl2sql_checkpoint:pw@postgres:5432/checkpoints
+      NL2SQL_MEMORY_DSN: postgresql://nl2sql_memory:pw@postgres:5432/memory
+      NL2SQL_AUTH_DSN: postgresql://nl2sql_auth:pw@postgres:5432/auth
+      NL2SQL_ANALYST_DSN: postgresql://nl2sql_analyst:pw@postgres:5432/app
+      NL2SQL_OPS_DSN: postgresql://nl2sql_ops:pw@postgres:5432/app
+      NL2SQL_AUDIT_DSN: postgresql://nl2sql_audit:pw@postgres:5432/audit
+
+volumes:
+  pgdata:

@@ -1,0 +1,58 @@
+# Privilege, model choice, limits, and prices.
+# Secrets, connection strings, and service URLs stay in the environment.
+# When the same setting is also set there, the environment wins.
+
+roles:
+  analyst:
+    can_write: false
+    max_rows: 500
+    max_write_rows: 100
+    # Optional, when a deployment must be narrower than the login's grants:
+    # tables: [orders, customers]
+    # denied_columns: [customers.email]
+  ops:
+    can_write: true
+    max_rows: 500
+    max_write_rows: 100
+
+llm:
+  provider: ""
+  max_tokens: 2000
+  max_retries: 3
+  total_timeout: 60
+  daily_budget_usd: 5
+  models:
+    openai: gpt-5.4-mini
+    groq: llama-3.3-70b-versatile
+    nvidia: nvidia/nemotron-3.5-lightning-30b-a3b
+    ollama: llama3.2
+  embed_models:
+    openai: text-embedding-3-small
+    nvidia: nvidia/nv-embedqa-e5-v5
+    ollama: nomic-embed-text
+  prices:
+    gpt-5.4-mini: [0.75, 4.50]
+    llama-3.3-70b-versatile: [0.59, 0.79]
+    meta/llama-3.3-70b-instruct: [0.50, 0.50]
+
+limits:
+  rate_per_minute: 30
+  max_attempts: 3
+  cost_approval_threshold: 50000
+  statement_timeout_ms: 5000
+  wall_clock_s: 10
+  sandbox_mem_bytes: 1073741824
+  session_ttl_seconds: 28800
+  distinct_value_cap: 5
+  schema_table_cap: 0
+
+langcache:
+  similarity_threshold: 0.95
+  ttl_seconds: 300
+
+langfuse:
+  tracing_enabled: true
+
+memory:
+  collection: nl2sql_memory
+  embed_dims: null
